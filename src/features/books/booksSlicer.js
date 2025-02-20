@@ -33,7 +33,9 @@ export const postBook=createAsyncThunk("books/postBooks",async(data)=>{
         })
         builder.addCase(fetchBooks.rejected,(state,action)=>{
             state.status="error",
+            
             state.error=action.payload.error
+            console.log(action.payload)
         })
         builder.addCase(postBook.pending,state=>{
             state.status="loading"

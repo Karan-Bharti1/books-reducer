@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
 import Header from "../components/Header";
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { postBook } from "../features/books/booksSlicer";
 
 const AddBooks=()=>{
     const [bookData,setBookData]=useState({
@@ -8,13 +10,27 @@ const AddBooks=()=>{
         author:"",
         genre:""
     })
+    const [message,setMessage]=useState("")
+    const dispatch=useDispatch()
+    const state=useSelector(state=>state.books)
     const handleChange=(event)=>{
 const {name,value}=event.target
 setBookData(prev=>({...prev,[name]:value}))
     }
     const handleSubmit=(event)=>{
         event.preventDefault()
-        console.log(bookData)
+      dispatch(postBook(bookData))
+      if(state.status==="succeeded")
+     { setMessage("Data Posted Successfully") 
+      setBookData({
+        bookName:"",
+        author:"",
+        genre:""
+    })
+    setTimeout(()=>{
+        setMessage("")
+    },2000)}
+    
     }
     
     return (<>
@@ -31,7 +47,7 @@ setBookData(prev=>({...prev,[name]:value}))
         <input type="text" name="genre" id="genre" className="form-control" value={bookData.genre} onChange={handleChange}/>
 <button className="btn btn-primary my-3">Add</button>
         </form>
-      
+      <h2>{message}</h2>
         </main></>)
 }
 export default AddBooks;
