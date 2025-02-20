@@ -3,6 +3,7 @@ import axios from "axios"
 import { bookUrl } from "../../urls"
 export const fetchBooks=createAsyncThunk("books/fetchBooks",async()=>{
     const response =await axios.get(bookUrl)
+   
     return response.data
 })
 export const postBook=createAsyncThunk("books/postBooks",async(data)=>{
@@ -12,6 +13,7 @@ export const postBook=createAsyncThunk("books/postBooks",async(data)=>{
             'Content-Type':'application/json'
         }
     })
+  
     return response.data
 })
  export const booksSlicer=createSlice({
@@ -29,13 +31,14 @@ export const postBook=createAsyncThunk("books/postBooks",async(data)=>{
         })
         builder.addCase(fetchBooks.fulfilled,(state,action)=>{
             state.status="succeeded",
+          
             state.books=action.payload
         })
         builder.addCase(fetchBooks.rejected,(state,action)=>{
             state.status="error",
             
-            state.error=action.payload.error
-            console.log(action.payload)
+            state.error=action.payload
+           
         })
         builder.addCase(postBook.pending,state=>{
             state.status="loading"
@@ -46,7 +49,8 @@ export const postBook=createAsyncThunk("books/postBooks",async(data)=>{
         })
         builder.addCase(postBook.rejected,(state,action)=>{
             state.status="error",
-            state.error=action.payload.error
+          
+            state.error=action.payload
         })
     }
 })
