@@ -45,7 +45,7 @@ export const postBook=createAsyncThunk("books/postBooks",async(data)=>{
         })
         builder.addCase(postBook.fulfilled,(state,action)=>{
             state.status="succeeded",
-            state.books=state.books.filter(book=>book._id!=action.payload._id)   
+            state.books=state.books.push(action.payload)
         })
         builder.addCase(postBook.rejected,(state,action)=>{
             state.status="error",
