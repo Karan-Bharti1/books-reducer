@@ -48,6 +48,7 @@ setBookData(prev=>({...prev,[name]:value}))
 <button className="btn btn-primary my-3">Add</button>
         </form>
       <h2>{message}</h2>
+    { state.status=="error" && <h2>{state.error}</h2>}
         </main></>)
 }
 export default AddBooks;
