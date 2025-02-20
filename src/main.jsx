@@ -5,6 +5,8 @@ import App from './App.jsx'
 import { createBrowserRouter } from 'react-router-dom'
 import AddBooks from './pages/AddBooks.jsx'
 import { RouterProvider } from 'react-router'
+import { Provider } from 'react-redux'
+import store from './store.js'
 const router=createBrowserRouter([{
   element:<App/>,
   path:"/"
@@ -14,6 +16,8 @@ const router=createBrowserRouter([{
 }])
 createRoot(document.getElementById('root')).render(
   <StrictMode>
+    <Provider  store={store}>
     <RouterProvider router={router}/>
+    </Provider>
   </StrictMode>,
 )
