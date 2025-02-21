@@ -18,7 +18,8 @@ dispatch(fetchBooks())
         {state.status==="error"&& <h2>Book Data Not Found</h2>}
         {state.status==="succeeded" && (<>
         <ul className="list-group my-4">
-        {Array.isArray(state.books) && state.books?.map(book=>(<li className="list-group-item" key={book._id}>{book.bookName}-Genre: {book.genre}-Author:{book.author}</li>))}
+        {Array.isArray(state.books) && state.books?.map(book=>(<li className="list-group-item " key={book._id}><div className="d-flex justify-space-between "><p>{book.bookName}-Genre: {book.genre}-Author:{book.author}</p>
+        <Link to='/editbook' state={book} className="btn btn-primary mx-3">Edit</Link></div></li>))}
         </ul>
         </>)}
         </>

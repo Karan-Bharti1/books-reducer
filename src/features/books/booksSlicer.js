@@ -13,7 +13,15 @@ export const postBook=createAsyncThunk("books/postBooks",async(data)=>{
             'Content-Type':'application/json'
         }
     })
-  
+  console.log(response)
+    return response.data
+})
+export const updateData=createAsyncThunk("books/update",async({id,data})=>{
+    const response=await axios.put(`${bookUrl}/${id}`,data,{
+    headers:{
+            'Content-Type':'application/json'
+        }
+    })
     return response.data
 })
  export const booksSlicer=createSlice({
@@ -45,11 +53,25 @@ export const postBook=createAsyncThunk("books/postBooks",async(data)=>{
         })
         builder.addCase(postBook.fulfilled,(state,action)=>{
             state.status="succeeded",
-            state.books=state.books.push(action.payload)
+            state.books.push(action.payload)
         })
         builder.addCase(postBook.rejected,(state,action)=>{
             state.status="error",
-          
+            state.error=action.payload
+        })
+        builder.addCase(updateData.pending,state=>{
+            state.status="loading"
+        })
+        builder.addCase(updateData.fulfilled,(state,action)=>{
+            state.status="succeeded"
+            const index=state.books.findIndex(book=>book._id===action.payload._id)
+           if(index!==-1){
+state.books[index]=action.payload
+           }
+            
+        })
+        builder.addCase(updateData.rejected,(state,action)=>{
+            state.status="error"
             state.error=action.payload
         })
     }
