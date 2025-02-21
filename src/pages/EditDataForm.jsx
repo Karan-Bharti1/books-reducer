@@ -1,24 +1,36 @@
 import { Link, useLocation } from "react-router-dom";
 import Header from "../components/Header";
 import BookForm from "../components/BookForm";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { updateData } from "../features/books/booksSlicer";
+import { fetchBooks, updateData } from "../features/books/booksSlicer";
 
 const EditDataForm=()=>{
     const [successMessage,setSuccessMessage]=useState("")
     const books=useSelector(state=>state.books)
-    console.log(books)
+
     const dispatch=useDispatch()
     const location=useLocation()
   const book=location.state
-  const [bookData,setBookData]=useState(book)
+ 
+  const [bookData,setBookData]=useState({ bookName:"",
+  author:"",
+  genre:""})
+  useEffect(()=>{
+    dispatch(fetchBooks())
+        },[])
+useEffect(()=>{
+    const exactBook=books.books?.find(b=>b._id==book._id)
+   setBookData(exactBook)
+},[book,books])
   const handleChange=(event)=>{
     const {name,value}=event.target
     setBookData(prev=>({...prev,[name]:value}))
         }
+       
         const handleSubmit=e=>{
             e.preventDefault()
+            console.log(bookData)
             dispatch(updateData({id:book._id,data:bookData}))
            if(books.status==="succeeded" ){
             setSuccessMessage("Data Updated Successfully")
